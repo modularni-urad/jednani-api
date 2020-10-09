@@ -13,4 +13,8 @@ export const AKCE = {
   UKLADA: 'uklada'
 }
 
+export const ROLE = {
+  ADMIN_JEDNANI: 'admin_jednani',
+  ADMIN_BODY: 'admin_body'
+}
 // TODO: ukoly z uklada
