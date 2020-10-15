@@ -1,5 +1,5 @@
 import usneseni from './usneseni'
-import ROLE from '../consts'
+import { ROLE } from '../consts'
 
 export default (ctx) => {
   const { knex, auth, JSONBodyParser } = ctx

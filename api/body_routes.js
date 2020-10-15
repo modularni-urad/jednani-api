@@ -1,5 +1,5 @@
 import body from './body'
-import ROLE from '../consts'
+import { ROLE } from '../consts'
 
 export default (ctx) => {
   const { knex, auth, JSONBodyParser } = ctx
