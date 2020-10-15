@@ -1,15 +1,14 @@
 
 import { whereFilter } from 'knex-filter-loopback'
 import _ from 'underscore'
-import { ALERTS, TNAMES, BATT_WARN } from '../consts'
-import tasks from './tasks'
+import { TNAMES } from '../consts'
 
 export default { create, update, list }
 
 function list (query, knex) {
   const fields = query.fields ? query.fields.split(',') : null
   const filter = query.filter ? JSON.parse(query.filter) : {}
-  const qb = knex(TNAMES.CONSUMPTIONSTATE)
+  const qb = knex(TNAMES.BODY)
     .where(whereFilter(filter))
     .orderBy('created', 'asc')
   return fields ? qb.select(fields) : qb
