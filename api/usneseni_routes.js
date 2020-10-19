@@ -30,5 +30,13 @@ export default (ctx) => {
         .catch(next)
     })
 
+  app.delete('/:id',
+    JSONBodyParser,
+    (req, res, next) => {
+      usneseni.remove(req.params.id, auth.getUID(req), knex)
+        .then(createdid => { res.json(createdid) })
+        .catch(next)
+    })
+
   return app
 }

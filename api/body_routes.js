@@ -6,17 +6,17 @@ export default (ctx) => {
   const app = ctx.express()
 
   app.get('/', (req, res, next) => {
-    data.list(req.query, knex).then(info => {
+    body.list(req.query, knex).then(info => {
       res.json(info)
       next()
     }).catch(next)
   })
 
-  app.post('/:id',
+  app.post('/',
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
     (req, res, next) => {
-      body.create(req.params.id, req.body, auth.getUID(req), knex)
+      body.create(req.body, auth.getUID(req), knex)
         .then(createdid => { res.json(createdid) })
         .catch(next)
     })
@@ -25,7 +25,7 @@ export default (ctx) => {
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
     (req, res, next) => {
-      body.update(req.params.id, req.body, auth.getUID(req), knex)
+      body.update(req.params.id, req.body, knex)
         .then(createdid => { res.json(createdid) })
         .catch(next)
     })

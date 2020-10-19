@@ -15,13 +15,14 @@ function list (query, knex) {
 }
 
 const editables = [
-  'nazev', 'duvod', 'predkl', 'zprac'
+  'nazev', 'duvod', 'predkl'
 ]
 
-function create (jednaniID, data, author, knex) {
+function create (data, author, knex) {
   data = _.pick(data, editables)
-  data.idjendnani = jednaniID
-  return knex(TNAMES.BODY).insert(data)
+  data.zprac = author
+  data.stav = 'draft'
+  return knex(TNAMES.BODY).insert(data).returning('id')
 }
 
 function update (id, data, knex) {
