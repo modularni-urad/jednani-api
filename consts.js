@@ -2,7 +2,8 @@
 export const TNAMES = {
   BODY: 'jednani_body',
   JEDNANI: 'jednani',
-  USNESENI: 'jednani_usneseni'
+  USNESENI: 'jednani_usneseni',
+  PRILOHY: 'jednani_prilohy'
 }
 
 export const AKCE = {
