@@ -31,7 +31,6 @@ export default (ctx) => {
     })
 
   app.delete('/:id',
-    JSONBodyParser,
     (req, res, next) => {
       prilohy.remove(req.params.id, auth.getUID(req), knex)
         .then(createdid => { res.json(createdid) })

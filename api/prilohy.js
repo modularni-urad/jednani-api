@@ -5,7 +5,7 @@ import parseDataUrl from 'parse-data-url'
 import { TNAMES } from '../consts'
 const fsPromises = require('fs').promises
 
-export default { create, list, remove }
+export default { create, update, list, remove }
 
 function list (query, knex) {
   const fields = query.fields ? query.fields.split(',') : null
@@ -18,12 +18,33 @@ function list (query, knex) {
 
 function create (bodID, data, author, knex) {
   const fileContent = parseDataUrl(data.content)
-  const fileName = path.join(process.env.SLOZKA_PRILOH, data.name)
-  return fsPromises.writeFile(fileName, fileContent.toBuffer())
+  const row = _.extend({ idbod: bodID }, _.omit(data, 'content'))
+  let newRow = null
+  return knex(TNAMES.PRILOHY).insert(row).returning('*')
     .then(res => {
-      data = _.omit(data, 'content')
-      data.idbod = bodID
-      return knex(TNAMES.PRILOHY).insert(data).returning('id')
+      newRow = res[0]
+      const fileName = `${newRow.id}_${data.name}`
+      const filePath = path.join(process.env.SLOZKA_PRILOH, fileName)
+      return fsPromises.writeFile(filePath, fileContent.toBuffer())
+    })
+    .then(res => {
+      return newRow
+    })
+}
+
+function update (id, data, author, knex) {
+  const fileContent = parseDataUrl(data.content)
+  const row = _.omit(data, 'content', 'id', 'idbod', 'created')
+  let newRow = null
+  return knex(TNAMES.PRILOHY).where({ id }).update(row).returning('*')
+    .then(res => {
+      newRow = res[0]
+      const fileName = `${newRow.id}_${data.name}`
+      const filePath = path.join(process.env.SLOZKA_PRILOH, fileName)
+      return fsPromises.writeFile(filePath, fileContent.toBuffer())
+    })
+    .then(res => {
+      return newRow
     })
 }
 
