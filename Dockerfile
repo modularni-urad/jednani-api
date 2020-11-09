@@ -1,16 +1,20 @@
-FROM node:lts-alpine3.10
+FROM node:12.18-alpine as debug
 
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-
-RUN apk add --update git && npm i --only=production
-
-# Bundle app source
+RUN apk add --update git
+COPY package.json .
+RUN npm install
+RUN npm install -g nodemon
 COPY . .
+ENTRYPOINT [ "nodemon", "-r", "esm", "--inspect-brk=0.0.0.0", "server.js" ]
 
+# -----------------------------------------------------------------------------
+FROM node:12.18-alpine as prod
+
+WORKDIR /usr/src/app
+COPY package.json .
+RUN apk add --no-cache --update git && npm i --only=production
+COPY . .
 ENV NODE_ENV=production
-ENV PORT=3000
-
 EXPOSE 3000
 CMD [ "npm", "start" ]

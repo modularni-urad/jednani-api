@@ -4,6 +4,7 @@ import path from 'path'
 import parseDataUrl from 'parse-data-url'
 import { TNAMES } from '../consts'
 const fsPromises = require('fs').promises
+const slozkaPriloh = process.env.SLOZKA_PRILOH || '/usr/src/prilohy'
 
 export default { create, update, list, remove }
 
@@ -13,7 +14,7 @@ function list (query, knex) {
   const qb = knex(TNAMES.PRILOHY)
     .where(whereFilter(filter))
     .orderBy('created', 'asc')
-  return fields ? qb.select(fields) : qb
+  return fields ? qb.select(fields) : qb 
 }
 
 function create (bodID, data, author, knex) {
@@ -24,7 +25,7 @@ function create (bodID, data, author, knex) {
     .then(res => {
       newRow = res[0]
       const fileName = `${newRow.id}_${data.name}`
-      const filePath = path.join(process.env.SLOZKA_PRILOH, fileName)
+      const filePath = path.join(slozkaPriloh, fileName)
       return fsPromises.writeFile(filePath, fileContent.toBuffer())
     })
     .then(res => {
@@ -40,7 +41,7 @@ function update (id, data, author, knex) {
     .then(res => {
       newRow = res[0]
       const fileName = `${newRow.id}_${data.name}`
-      const filePath = path.join(process.env.SLOZKA_PRILOH, fileName)
+      const filePath = path.join(slozkaPriloh, fileName)
       return fsPromises.writeFile(filePath, fileContent.toBuffer())
     })
     .then(res => {
