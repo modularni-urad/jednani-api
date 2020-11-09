@@ -6,12 +6,16 @@ import { TNAMES } from '../consts'
 export default { create, update, list }
 
 function list (query, knex) {
+  const perPage = Number(query.perPage) || 10
+  const currentPage = Number(query.currentPage) || null
   const fields = query.fields ? query.fields.split(',') : null
-  const filter = query.filter ? JSON.parse(query.filter) : {}
-  const qb = knex(TNAMES.BODY)
-    .where(whereFilter(filter))
-    .orderBy('created', 'asc')
-  return fields ? qb.select(fields) : qb
+  const sort = query.sort ? query.sort.split(':') : null
+  const filter = query.filter ? JSON.parse(query.filter) : null
+  let qb = knex(TNAMES.BODY)
+  qb = filter ? qb.where(whereFilter(filter)) : qb
+  qb = fields ? qb.select(fields) : qb
+  qb = sort ? qb.orderBy(sort[0], sort[1]) : qb
+  return currentPage ? qb.paginate({ perPage, currentPage }) : qb
 }
 
 const editables = [
