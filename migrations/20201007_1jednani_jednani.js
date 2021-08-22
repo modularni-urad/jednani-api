@@ -5,7 +5,9 @@ exports.up = (knex, Promise) => {
     table.increments('id').primary()
     table.string('organ').notNullable()
     table.date('datum').notNullable()
+    table.string('misto').notNullable()
     table.text('zapis')
+    table.string('createdby').notNullable()
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   })
 }

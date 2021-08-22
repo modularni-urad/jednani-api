@@ -9,7 +9,7 @@ exports.up = (knex, Promise) => {
     table.text('duvod').notNullable()
     table.string('predkl').notNullable()
     table.string('zprac').notNullable()
-    table.string('stav').notNullable()
+    table.string('stav').notNullable().defaultTo('draft')
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   })
 }

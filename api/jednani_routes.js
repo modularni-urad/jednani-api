@@ -1,32 +1,27 @@
-import points from './jednani'
+import Jednani from './jednani'
 import { ROLE } from '../consts'
 
 export default (ctx) => {
-  const { knex, auth, JSONBodyParser } = ctx
-  const app = ctx.express()
+  const { knex, auth, express } = ctx
+  const JSONBodyParser = express.json()
+  const jednani = Jednani(knex)
+  const app = express()
 
-  app.get('/', (req, res, next) => {
-    points.list(req.query, knex).then(info => { res.json(info) }).catch(next)
-  })
+  app.get('/', jednani.list)
+
+  app.get('/:id', jednani.get)
 
   app.post('/',
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_JEDNANI),
     JSONBodyParser,
-    (req, res, next) => {
-      points.create(req.body, knex).then(savedid => {
-        res.status(201).json(savedid)
-        next()
-      }).catch(next)
-    })
+    jednani.create)
 
   app.put('/:id([0-9]+)',
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_JEDNANI),
     JSONBodyParser,
-    (req, res, next) => {
-      points.update(req.params.id, req.body, knex)
-        .then(result => res.json(result))
-        .catch(next)
-    })
+    jednani.update)
 
   return app
 }
