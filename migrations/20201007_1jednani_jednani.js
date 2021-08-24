@@ -4,7 +4,7 @@ exports.up = (knex, Promise) => {
   return knex.schema.createTable(TNAMES.JEDNANI, (table) => {
     table.increments('id').primary()
     table.string('organ').notNullable()
-    table.date('datum').notNullable()
+    table.timestamp('datum').notNullable()
     table.string('misto').notNullable()
     table.text('zapis')
     table.string('createdby').notNullable()
