@@ -21,7 +21,7 @@ export default async function init (mocks = null) {
 
   app.use('/body', initBodyRoutes(ctx))
   app.use('/jednani', initJednaniRoutes(ctx))
-  // app.use('/usneseni', initUsneseniRoutes(ctx))
+  app.use('/usneseni', initUsneseniRoutes(ctx))
   // app.use('/prilohy', initPrilohyRoutes(ctx))
 
   initErrorHandlers(app) // ERROR HANDLING

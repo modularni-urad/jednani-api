@@ -1,42 +1,27 @@
-import usneseni from './usneseni'
+import Usneseni from './usneseni'
 import { ROLE } from '../consts'
 
 export default (ctx) => {
-  const { knex, auth, JSONBodyParser } = ctx
-  const app = ctx.express()
+  const { knex, auth, express } = ctx
+  const JSONBodyParser = express.json()
+  const usneseni = Usneseni(knex)
+  const app = express()
 
-  app.get('/', (req, res, next) => {
-    usneseni.list(req.query, knex).then(info => {
-      res.json(info)
-      next()
-    }).catch(next)
-  })
+  app.get('/', usneseni.list)
 
-  app.post('/:id',
+  app.post('/:idbod([0-9]+)',
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
-    (req, res, next) => {
-      usneseni.create(req.params.id, req.body, auth.getUID(req), knex)
-        .then(createdid => { res.json(createdid) })
-        .catch(next)
-    })
+    usneseni.checkData,
+    usneseni.create)
 
-  app.put('/:id',
+  app.put('/:id([0-9]+)',
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
-    (req, res, next) => {
-      usneseni.update(req.params.id, req.body, auth.getUID(req), knex)
-        .then(createdid => { res.json(createdid) })
-        .catch(next)
-    })
-
-  app.delete('/:id',
-    JSONBodyParser,
-    (req, res, next) => {
-      usneseni.remove(req.params.id, auth.getUID(req), knex)
-        .then(createdid => { res.json(createdid) })
-        .catch(next)
-    })
+    usneseni.checkData,
+    usneseni.update)
 
   return app
 }

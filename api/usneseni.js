@@ -1,33 +1,44 @@
-import { whereFilter } from 'knex-filter-loopback'
+import entity from 'entity-api-base'
 import _ from 'underscore'
 import { TNAMES } from '../consts'
 
-export default { create, update, list, remove }
-
-function list (query, knex) {
-  const fields = query.fields ? query.fields.split(',') : null
-  const filter = query.filter ? JSON.parse(query.filter) : {}
-  const qb = knex(TNAMES.USNESENI)
-    .where(whereFilter(filter))
-    .orderBy('created', 'asc')
-  return fields ? qb.select(fields) : qb
+const conf = {
+  tablename: TNAMES.USNESENI,
+  editables: ['akce', 'osoba', 'text', 'navrhl']
 }
 
-const editables = [
-  'akce', 'osoba', 'text'
-]
-
-function create (bodID, data, author, knex) {
-  data = _.pick(data, editables)
-  data.idbod = bodID
-  return knex(TNAMES.USNESENI).insert(data).returning('id')
-}
-
-function update (id, data, uid, knex) {
-  data = _.pick(data, editables)
-  return knex(TNAMES.USNESENI).where({ id }).update(data)
-}
-
-function remove (id, uid, knex) {
-  return knex(TNAMES.USNESENI).where({ id }).del()
-}
+export default (knex) => ({
+  create: (req, res, next) => {
+    Object.assign(req.body, { 
+      idbod: req.params.idbod,
+      navrhl: req.body.navrhl || req.user.id
+    })
+    // MULTITENANT && Object.assign(req.body, { orgid: _getOrgId(req) })
+    entity.create(req.body, conf, knex)
+      .then(saved => res.status(201).json(saved))
+      .catch(next)
+  },
+  get: (req, res, next) => {
+  },
+  update: (req, res, next) => {
+    entity.update(req.params.id, req.body, conf, knex)
+      .then(saved => res.json(saved))
+      .catch(next)
+  },
+  list: (req, res, next) => {
+    req.query.filter = req.query.filter ? JSON.parse(req.query.filter) : {}
+    // MULTITENANT && Object.assign(req.query.filter, { orgid: _getOrgId(req) })
+    // TODO: implicity sort .orderBy('created', 'asc')
+    entity.list(req.query, conf, knex)
+      .then(data => res.json(data))
+      .catch(next)
+  },
+  checkData: (req, res, next) => {
+    try {
+      entity.check_data(req.body, conf)
+      next()
+    } catch (err) {
+      next(err)
+    }
+  }
+})
