@@ -24,7 +24,7 @@ describe('app', () => {
   describe('API', () => {
     const submodules = [
       './jednani',
-      // './comments',
+      './body',
       // './solvers'
     ]
     submodules.map((i) => {

@@ -7,7 +7,7 @@
     "start": "node -r esm server.js",
     "startdbg": "node -r esm --inspect-brk server.js",
     "test": "mocha -r esm --exit './test/main.js'",
-    "testdbg": "mocha -r esm --inspect-brk './test/main.js'"
+    "testdbg": "mocha -r esm --exit --inspect-brk './test/main.js'"
   },
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
   "license": "MIT",

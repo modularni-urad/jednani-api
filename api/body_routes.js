@@ -8,17 +8,20 @@ export default (ctx) => {
   const app = express()
 
   app.get('/', body.list)
+  app.get('/:id', body.get)
 
   app.post('/',
-    body.checkData,
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
-    body.list)
+    body.checkData,
+    body.create)
 
   app.put('/:id',
-    body.checkData,
+    auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
+    body.checkData,
     body.update)
 
   return app

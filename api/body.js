@@ -4,7 +4,7 @@ import { TNAMES } from '../consts'
 
 const conf = {
   tablename: TNAMES.BODY,
-  editables: ['nazev', 'duvod', 'predkl']
+  editables: ['nazev', 'duvod', 'predkl', 'zprac']
 }
 
 export default (knex) => ({
@@ -20,9 +20,14 @@ export default (knex) => ({
       .then(saved => res.json(saved))
       .catch(next)
   },
+  get: (req, res, next) => {
+    entity.get(req.params.id, conf, knex)
+      .then(saved => res.json(saved))
+      .catch(next)
+  },
   list: (req, res, next) => {
     req.query.filter = req.query.filter ? JSON.parse(req.query.filter) : {}
-    MULTITENANT && Object.assign(req.query.filter, { orgid: _getOrgId(req) })
+    // MULTITENANT && Object.assign(req.query.filter, { orgid: _getOrgId(req) })
     entity.list(req.query, conf, knex)
       .then(data => res.json(data))
       .catch(next)
