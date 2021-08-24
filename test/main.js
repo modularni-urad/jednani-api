@@ -25,7 +25,8 @@ describe('app', () => {
     const submodules = [
       './jednani',
       './body',
-      './usneseni'
+      './usneseni',
+      './hlasovani'
     ]
     submodules.map((i) => {
       const subMod = require(i)
