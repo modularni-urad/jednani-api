@@ -3,7 +3,7 @@ import { ROLE } from '../../consts'
 
 export default (ctx) => {
   const { knex, auth, express } = ctx
-  const BodyParser = express.json()
+  const BodyParser = express.json({ limit: '50mb' })
   const app = express()
 
   app.get('/:id', auth.required, (req, res, next) => {

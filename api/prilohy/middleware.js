@@ -29,10 +29,10 @@ async function create (bodID, data, author, knex) {
 }
 
 function saveFile (newRow, data) {
-  const fileContent = parseDataUrl(data.content)
+  const fileContent = Buffer.from(data.content, 'base64')
   const fileName = newRow.id || newRow[0]
   const filePath = path.join(slozkaPriloh, fileName.toString())
-  return fsPromises.writeFile(filePath, fileContent.toBuffer())
+  return fsPromises.writeFile(filePath, fileContent)
 }
 
 async function update (id, data, user, knex) {

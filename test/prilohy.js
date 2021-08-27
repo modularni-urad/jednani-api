@@ -11,9 +11,12 @@ module.exports = (g) => {
 
   const content = 'pok1 __with__ device'
   const p = {
-    name: 'povidani'
+    name: 'povidani.md',
+    type: 'text/plain',
+    size: content.length
   }
-  const encContent = 'data:text/plain;charset=utf-8;base64,cG9rMSBfX3dpdGhfXyBkZXZpY2U='
+  // const encContent = 'data:text/plain;charset=utf-8;base64,cG9rMSBfX3dpdGhfXyBkZXZpY2U='
+  const encContent = Buffer.from(content, 'utf-8').toString('base64')
 
   return describe('prilohy', () => {
     //
