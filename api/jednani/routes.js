@@ -1,5 +1,5 @@
-import Jednani from './jednani'
-import { ROLE } from '../consts'
+import Jednani from './middleware'
+import { ROLE } from '../../consts'
 
 export default (ctx) => {
   const { knex, auth, express } = ctx

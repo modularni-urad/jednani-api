@@ -1,6 +1,6 @@
 import entity from 'entity-api-base'
 import _ from 'underscore'
-import { TNAMES } from '../consts'
+import { TNAMES } from '../../consts'
 
 const conf = {
   tablename: TNAMES.BODY,

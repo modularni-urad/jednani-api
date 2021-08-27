@@ -5,9 +5,9 @@ import initErrorHandlers from 'modularni-urad-utils/error_handlers'
 import { required, requireMembership } from 'modularni-urad-utils/auth'
 import initDB from 'modularni-urad-utils/db'
 
-import initBodyRoutes from './api/body_routes'
-import initJednaniRoutes from './api/jednani_routes'
-import initUsneseniRoutes from './api/usneseni_routes'
+import initBodyRoutes from './api/body/routes'
+import initJednaniRoutes from './api/jednani/routes'
+import initUsneseniRoutes from './api/usneseni/routes'
 import initHlasovani from './api/hlasovani/routes'
 import initPrilohyRoutes from './api/prilohy/routes'
 

@@ -1,28 +1,27 @@
-import Body from './body'
-import { ROLE } from '../consts'
+import Usneseni from './middleware'
+import { ROLE } from '../../consts'
 
 export default (ctx) => {
   const { knex, auth, express } = ctx
   const JSONBodyParser = express.json()
-  const body = Body(knex)
+  const usneseni = Usneseni(knex)
   const app = express()
 
-  app.get('/', body.list)
-  app.get('/:id', body.get)
+  app.get('/', usneseni.list)
 
-  app.post('/',
+  app.post('/:idbod([0-9]+)',
     auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
-    body.checkData,
-    body.create)
+    usneseni.checkData,
+    usneseni.create)
 
-  app.put('/:id',
+  app.put('/:id([0-9]+)',
     auth.required,
     auth.requireMembership(ROLE.ADMIN_BODY),
     JSONBodyParser,
-    body.checkData,
-    body.update)
+    usneseni.checkData,
+    usneseni.update)
 
   return app
 }
