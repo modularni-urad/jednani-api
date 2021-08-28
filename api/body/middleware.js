@@ -20,6 +20,19 @@ export default (knex) => ({
       .then(saved => res.json(saved))
       .catch(next)
   },
+  zaradit: async (req, res, next) => {
+    try {
+      const q = knex(conf.tablename).where({ id: req.params.id })
+      const bod = await q.first()
+      if (bod.predkl !== req.user.id.toString()) {
+        throw new Error('nemuzete zarazovat na jednani')
+      }
+      const result = await q.update({ idjendnani: req.params.idjendnani })
+      res.json(result)
+    } catch(err) {
+      next(err)
+    }    
+  },
   get: (req, res, next) => {
     entity.get(req.params.id, conf, knex)
       .then(saved => res.json(saved))

@@ -40,7 +40,7 @@ module.exports = (g) => {
     })
 
     it('shall update the item pok1', async () => {
-      const change = { predkl: 'saruman' }
+      const change = { predkl: g.mockUser.id }
       const res = await r.put(`/body/${p.id}`).send(change)
         .set('Authorization', 'Bearer f')
       res.should.have.status(200)
@@ -49,7 +49,7 @@ module.exports = (g) => {
 
     it('shall get the pok1', async () => {
       const res = await r.get('/body/' + p.id)
-      res.body.predkl.should.eql('saruman')
+      res.body.predkl.should.eql(g.mockUser.id.toString())
       res.should.have.status(200)
     })
 
@@ -57,6 +57,20 @@ module.exports = (g) => {
       const res = await r.get('/body/').query({ currentPage: 1, perPage: 2 })
       // res.body.length.should.eql(1)
       // res.body[0].name.should.eql('pok1changed')
+      res.should.have.status(200)
+    })
+
+    it('nesmi zaradit bod na jednani, neni predkladatel', async () => {
+      g.mockUser.id = 44
+      const res = await r.put(`/body/${p.id}/zaradit/${g.jednani.id}`)
+        .set('Authorization', 'Bearer f')
+      res.should.have.status(400)
+    })
+
+    it('musi zaradit bod na jednani', async () => {
+      g.mockUser.id = 42
+      const res = await r.put(`/body/${p.id}/zaradit/${g.jednani.id}`)
+        .set('Authorization', 'Bearer f')
       res.should.have.status(200)
     })
   })

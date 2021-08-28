@@ -24,5 +24,7 @@ export default (ctx) => {
     body.checkData,
     body.update)
 
+  app.put('/:id/zaradit/:idjendnani', auth.required, body.zaradit)
+
   return app
 }
