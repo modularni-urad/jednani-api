@@ -5,7 +5,9 @@ exports.up = (knex, Promise) => {
     table.increments('id').primary()
     table.integer('idbod')
       .references('id').inTable(TNAMES.BODY)
-    table.string('stav').notNullable().defaultTo('pred')
+    // table.integer('tajne').defaultTo(0)
+    table.timestamp('zacatek')
+    table.timestamp('konec')
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   })
 }

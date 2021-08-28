@@ -10,6 +10,7 @@ import initJednaniRoutes from './api/jednani/routes'
 import initUsneseniRoutes from './api/usneseni/routes'
 import initHlasovani from './api/hlasovani/routes'
 import initPrilohyRoutes from './api/prilohy/routes'
+import initHlasyRoutes from './api/hlasy/routes'
 
 export default async function init (mocks = null) {
   const migrationsDir = path.join(__dirname, 'migrations')
@@ -25,6 +26,7 @@ export default async function init (mocks = null) {
   app.use('/usneseni', initUsneseniRoutes(ctx))
   app.use('/hlasovani', initHlasovani(ctx))
   app.use('/prilohy', initPrilohyRoutes(ctx))
+  app.use('/hlasy', initHlasyRoutes(ctx))
 
   initErrorHandlers(app) // ERROR HANDLING
 

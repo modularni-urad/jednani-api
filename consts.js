@@ -4,7 +4,8 @@ export const TNAMES = {
   JEDNANI: 'jednani',
   HLASOVANI: 'jednani_hlasovani',
   USNESENI: 'jednani_usneseni',
-  PRILOHY: 'jednani_prilohy'
+  PRILOHY: 'jednani_prilohy',
+  HLASY: 'jednani_hlasy'
 }
 
 export const AKCE = {
@@ -21,3 +22,9 @@ export const ROLE = {
   ADMIN_HLASOVANI: 'admin_hlasovani'
 }
 // TODO: ukoly z uklada
+
+export const HLAS = {
+  ANO: 'a',
+  NE: 'n',
+  ZDRZEL: 'z'
+}

@@ -32,8 +32,9 @@ module.exports = (g) => {
 
     it('shall get all items', async () => {
       const res = await r.get(`/hlasovani/?filter={"idbod":${g.body1.id}}`)
-      res.body.should.have.length(1)
       res.should.have.status(200)
+      res.body.should.have.length(1)
+      g.hlasovani1 = res.body[0]
     })
   })
 }
