@@ -1,6 +1,5 @@
 import _ from 'underscore'
 import path from 'path'
-import parseDataUrl from 'parse-data-url'
 import { TNAMES } from '../../consts'
 const fsPromises = require('fs').promises
 const slozkaPriloh = process.env.SLOZKA_PRILOH || '/usr/src/prilohy'
