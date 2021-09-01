@@ -67,11 +67,11 @@ module.exports = (g) => {
       res.should.have.status(400)
     })
 
-    it('musi zaradit bod na jednani', async () => {
+    it('nesmi zaradit bod na jednani, chybi usneseni', async () => {
       g.mockUser.id = 42
       const res = await r.put(`/body/${p.id}/zaradit/${g.jednani.id}`)
         .set('Authorization', 'Bearer f')
-      res.should.have.status(200)
+      res.should.have.status(400)
     })
   })
 }

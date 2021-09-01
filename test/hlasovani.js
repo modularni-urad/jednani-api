@@ -11,6 +11,21 @@ module.exports = (g) => {
 
   return describe('hlasovani', () => {
     //
+    it('musi zaradit bod na jednani a vytvorit hlasovani', async () => {
+      g.mockUser.id = 42
+      const res = await r.put(`/body/${g.body1.id}/zaradit/${g.jednani.id}`)
+        .set('Authorization', 'Bearer f')
+      res.should.have.status(200)
+
+      const res2 = await r.get(`/hlasovani/?filter={"idbod":${g.body1.id}}`)
+      res2.should.have.status(200)
+      res2.body.should.have.length(1)
+      
+      const res3 = await r.get(`/usneseni/?filter={"idhlasovani":${res2.body[0].id}}`)
+      res3.should.have.status(200)
+      res3.body.should.have.length(1)
+    })
+
     it('must not create a new item wihout auth', async () => {
       g.mockUser.groups = []
       const res = await r.post(`/hlasovani/?body=${g.body1.id}`)
@@ -33,8 +48,8 @@ module.exports = (g) => {
     it('shall get all items', async () => {
       const res = await r.get(`/hlasovani/?filter={"idbod":${g.body1.id}}`)
       res.should.have.status(200)
-      res.body.should.have.length(1)
       g.hlasovani1 = res.body[0]
+      res.body.should.have.length(2)
     })
   })
 }

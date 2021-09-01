@@ -6,6 +6,7 @@ exports.up = (knex, Promise) => {
     table.integer('idbod')
       .references('id').inTable(TNAMES.BODY)
     // table.integer('tajne').defaultTo(0)
+    // table.string('stav', 4)
     table.timestamp('zacatek')
     table.timestamp('konec')
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
