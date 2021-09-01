@@ -29,6 +29,17 @@ module.exports = (g) => {
       res.should.have.status(200)
     })
 
+    it('must not get my vote without auth', async () => {
+      const res = await r.get(`/hlasy/${g.hlasovani1.id}`)
+      res.should.have.status(401)
+    })
+
+    it('shall get my vote', async () => {
+      const res = await r.get(`/hlasy/${g.hlasovani1.id}`)
+        .set('Authorization', 'Bearer f')
+      res.should.have.status(200)
+    })
+
     // it('shall get all items', async () => {
     //   const res = await r.get(`/hlasovani/?filter={"idbod":${g.body1.id}}`)
     //   res.body.should.have.length(1)
