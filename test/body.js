@@ -45,7 +45,7 @@ module.exports = (g) => {
         .set('Authorization', 'Bearer f')
       res.should.have.status(200)
     })
-    // idjendnani: g.jednani.id,
+    // idjednani: g.jednani.id,
 
     it('shall get the pok1', async () => {
       const res = await r.get('/body/' + p.id)

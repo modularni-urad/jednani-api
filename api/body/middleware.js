@@ -27,7 +27,7 @@ export default (knex) => ({
       if (bod.predkl !== req.user.id.toString()) {
         throw new Error('nemuzete zarazovat na jednani')
       }
-      const change = { idjendnani: req.params.idjendnani, stav: 'zarazen' }
+      const change = { idjednani: req.params.idjednani, stav: 'zarazen' }
       const result = await q.update(change).returning('*')
       res.json(result)
     } catch(err) {
