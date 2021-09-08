@@ -5,9 +5,12 @@ exports.up = (knex, Promise) => {
     table.increments('id').primary()
     table.integer('idbod').notNullable()
       .references('id').inTable(TNAMES.BODY)
-    table.string('akce') // bere na vedomi, odvolava, jmenuje, poveruje
+    table.integer('idhlasovani')
+      .references('id').inTable(TNAMES.HLASOVANI)
+    table.string('akce').notNullable() // bere na vedomi, odvolava, jmenuje, poveruje
     table.string('osoba')
-    table.string('text')
+    table.string('text').notNullable()
+    table.string('navrhl')
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   })
 }
